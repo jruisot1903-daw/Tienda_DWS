@@ -4,11 +4,11 @@ include_once(dirname(__FILE__) . "/cabecera.php");
 
 
 //Dibuja la plantilla de la vista 
-inicioCabecera("2DAW Ejercicios");
+inicioCabecera("2DAW Tienda");
 cabecera();
 finCabecera();
 
-inicioCuerpo("EJERCICIOS");
+inicioCuerpo("Tienda");
 cuerpo(); //llamo a la vista
 finCuerpo();
 
@@ -23,7 +23,7 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-    Hola estas en index.php 
+
 <?php
 
 }

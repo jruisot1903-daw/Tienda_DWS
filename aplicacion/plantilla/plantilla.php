@@ -100,8 +100,6 @@ function inicioCuerpo(String $cabecera)
             <div id="barraMenu">
                 <ul>
                     <li><a href="/">Inicio</a></li>
-                    <li><a href="/aplicacion/pruebas">Pruebas</a></li>
-                    <li><a href="/aplicacion/relaciones">Relaciones</a></li>
                 </ul>
             </div>
 
