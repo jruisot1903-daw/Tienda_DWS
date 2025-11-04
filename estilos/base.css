@@ -1,0 +1,224 @@
+@charset "UTF8";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:  'Inter', Helvetica, Arial, sans-serif;
+
+}
+
+body {
+    background-color: #f5f5f5;
+    font-size: 16px;
+    color: #333333;
+}
+
+#documento {
+    margin: 2% auto;
+    background-color: #ffffff;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.37);
+    padding: 10px;
+    border: 2px solid #cccccc;
+}
+
+#cabecera {
+    background-color: #eaeaea;
+    padding: 5px;
+    color: #333333;
+}
+
+#cabecera #logo {
+    width: 75px;
+    height: 50px;
+}
+
+#cabecera #titulo {
+    font-size: 1.3em;
+    font-style: italic;
+    color: #333333;
+}
+
+.boton {
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.boton a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.boton a:visited {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.boton a:hover,
+.boton:hover {
+    background-color: #555555;
+    color: #ffffff;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    background-color: #ffffff;
+}
+
+.tabla th {
+    background-color: #eaeaea;
+    color: #333333;
+}
+
+.tabla tr.par {
+    background-color: #f0f0f0;
+    color: #333333;
+}
+
+.tabla tr.impar {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+#pie {
+    background-color: #eaeaea;
+    color: #333333;
+    font-size: 1.2em;
+    padding: 5px;
+    text-align: center;
+}
+
+.for_texto {
+    border: 2px solid #cccccc;
+    background-color: #ffffff;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 4px;
+    color: #333333;
+}
+
+.error {
+    background-color: #ffffff;
+    color: #cc0000;
+    border: 2px solid #cc0000;
+    padding: 5px;
+}
+
+.barraUbi {
+    font: 14px system-ui;
+    margin: 1rem 0;
+    color: #333333;
+}
+
+.barraUbi a:focus {
+    text-decoration: none;
+    color: #000000;
+}
+
+.barraUbi a:hover {
+    text-decoration: underline;
+    color: #000000;
+}
+
+.barraUbi .sep {
+    margin: 1rem;
+    opacity: .6;
+}
+
+.barraUbi [aria-current="page"] {
+    font-weight: 600;
+    cursor: default;
+    color: #000000;
+}
+
+#barraMenu {
+    border-top: 2px solid #cccccc;
+}
+
+#barraMenu ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+#barraMenu > ul > li {
+    position: relative;
+    padding: 15px 25px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333333;
+    transition: 0.3s;
+}
+
+#barraMenu > ul > li:hover {
+    background: #e0e0e0;
+    color: #000000;
+}
+
+#barraMenu ul ul {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    min-width: 180px;
+    flex-direction: column;
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+#barraMenu li:hover ul {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#barraMenu ul ul li {
+    padding: 12px 20px;
+    color: #333333;
+}
+
+#barraMenu ul ul li:hover {
+    background: #e0e0e0;
+    color: #000000;
+}
+
+#barraMenu a:focus {
+    color: #000000;
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #333333;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+a:focus {
+    color: #000000;
+    outline: none;
+}
+
+.prueba {
+    background-color: #33333311;
+    color: #ffffff;
+    text-decoration: none;
+}
