@@ -105,26 +105,25 @@ abstract class MuebleBase
     public function getFechaIniVenta() { return $this->fechaIniVenta; }
     public function setFechaIniVenta($fechaIniVenta)
     {
-        try {
             $fecha = new DateTime($fechaIniVenta);
             if ($fecha >= $this->anio) {
                 $this->fechaIniVenta = $fecha;
                 return true;
             }
-        } catch (Exception $e) {}
+
         return false;
     }
 
     public function getFechaFinVenta() { return $this->fechaFinVenta; }
     public function setFechaFinVenta($fechaFinVenta)
     {
-        try {
+    
             $fecha = new DateTime($fechaFinVenta);
             if (isset($this->fechaIniVenta) && $fecha >= $this->fechaIniVenta) {
                 $this->fechaFinVenta = $fecha;
                 return true;
             }
-        } catch (Exception $e) {}
+  
         return false;
     }
 
