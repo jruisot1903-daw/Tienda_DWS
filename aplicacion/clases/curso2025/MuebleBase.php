@@ -16,6 +16,9 @@ abstract class MuebleBase
     private int $materialPrincipal;
     private float $precio;
 
+    //creamos la propiedad Carecteristicas
+    private Caracteristicas $carecteristicas;
+
     protected static function incrementarContador(): void
     {
         if (self::$mueblesCreados < self::MAXIMO_MUEBLES) {
@@ -53,6 +56,7 @@ abstract class MuebleBase
         $this->setFechaFinVenta($fechaFinVenta) ?: $this->setFechaFinVenta('31/12/2040');
         $this->setMaterialPrincipal($materialPrincipal) ?: $this->setMaterialPrincipal(1);
         $this->setPrecio($precio) ?: $this->setPrecio(30);
+        $this->carecteristicas = new Caracteristicas();
 
         self::incrementarContador();
     }
@@ -147,6 +151,8 @@ abstract class MuebleBase
         return false;
     }
 
+    // funciones 
+
     public function getMaterialDescripcion(): string
     {
         return self::MATERIALES_POSIBLES[$this->materialPrincipal] ?? "Desconocido";
@@ -189,9 +195,38 @@ abstract class MuebleBase
         return false;
     }
 
+    public function anadir(...$args): void{
+        $total = count($args);
+        if ($total < 2 ) return;
+
+        //comprobamos si es impar , si es asi tenemos que ignorar el último
+        if($total % 2 != 0){
+            array_pop($args);
+        }
+
+        for($i = 0; $i < count($args); $i += 2){
+            $clave = $args[$i];
+            $valor = $args[$i + 1];
+            $this->carecteristicas->set($clave, $valor);
+        }
+    }
+
+    public function exportarCaracteristicas(): string{
+        $reult = "";
+        foreach($this->carecteristicas as $clave => $valor){
+            $result .= "$clave:$valor";
+        }
+        return $result;
+    }
+
+
+    // __toString
     public function __toString(): string
     {
-        return "MUEBLE de clase " . get_class($this) .
-            " con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()->format('Y')}, vendido desde {$this->getFechaIniVenta()->format('d/m/Y')} hasta {$this->getFechaFinVenta()->format('d/m/Y')}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
+    $base = "MUEBLE de clase " . get_class($this) .
+        " con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()->format('Y')}, vendido desde {$this->getFechaIniVenta()->format('d/m/Y')} hasta {$this->getFechaFinVenta()->format('d/m/Y')}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
+
+    $caracs = $this->exportarCaracteristicas();
+    return $base . "\nCaracterísticas:\n" . $caracs;
     }
 }
