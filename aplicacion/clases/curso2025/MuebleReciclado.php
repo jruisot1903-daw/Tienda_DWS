@@ -1,5 +1,5 @@
 <?php
-require_once './MuebleBase.php';
+require_once __DIR__ . '/MuebleBase.php';
 
 
 final class MuebleReciclado extends MuebleBase {

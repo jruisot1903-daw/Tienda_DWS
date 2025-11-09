@@ -1,5 +1,6 @@
 <?php
-require_once '../../../scripts/librerias/validacion.php';
+require_once(__DIR__ . '/../../../scripts/librerias/validacion.php');
+require_once(__DIR__ . '/Caracteristicas.php');
 
 abstract class MuebleBase
 {
@@ -11,12 +12,11 @@ abstract class MuebleBase
     private string $fabricante;
     private string $pais;
     private DateTime $anio;
-    private DateTime $fechaIniVenta;
-    private DateTime $fechaFinVenta;
+    private ?DateTime $fechaIniVenta = null;
+    private ?DateTime $fechaFinVenta = null;
     private int $materialPrincipal;
     private float $precio;
 
-    //creamos la propiedad Carecteristicas
     private Caracteristicas $carecteristicas;
 
     protected static function incrementarContador(): void
@@ -46,7 +46,7 @@ abstract class MuebleBase
         }
 
         if (!$this->setNombre($nombre)) {
-            throw new Exception("Nombre inválido. No puede estar vacío y debe tener máximo 40 caracteres.");
+            throw new Exception("Nombre inválido.");
         }
 
         $this->setFabricante($fabricante) ?: $this->setFabricante('FMu:');
@@ -61,7 +61,6 @@ abstract class MuebleBase
         self::incrementarContador();
     }
 
-    // Getters y Setters con validaciones
     public function getNombre() { return $this->nombre; }
     public function setNombre($nombre)
     {
@@ -100,34 +99,39 @@ abstract class MuebleBase
     {
         $anioActual = (int)date('Y');
         if (is_numeric($anio) && $anio >= 2020 && $anio <= $anioActual) {
-            $this->anio = new DateTime("01/01/$anio");
+            $this->anio = DateTime::createFromFormat('d/m/Y', "01/01/$anio");
             return true;
         }
         return false;
     }
 
-    public function getFechaIniVenta() { return $this->fechaIniVenta; }
+    public function getFechaIniVenta()
+    {
+        return $this->fechaIniVenta;
+    }
+
     public function setFechaIniVenta($fechaIniVenta)
     {
-            $fecha = new DateTime($fechaIniVenta);
-            if ($fecha >= $this->anio) {
-                $this->fechaIniVenta = $fecha;
-                return true;
-            }
-
+        $fecha = DateTime::createFromFormat('d/m/Y', $fechaIniVenta);
+        if ($fecha && $fecha >= $this->anio) {
+            $this->fechaIniVenta = $fecha;
+            return true;
+        }
         return false;
     }
 
-    public function getFechaFinVenta() { return $this->fechaFinVenta; }
+    public function getFechaFinVenta()
+    {
+        return $this->fechaFinVenta;
+    }
+
     public function setFechaFinVenta($fechaFinVenta)
     {
-    
-            $fecha = new DateTime($fechaFinVenta);
-            if (isset($this->fechaIniVenta) && $fecha >= $this->fechaIniVenta) {
-                $this->fechaFinVenta = $fecha;
-                return true;
-            }
-  
+        $fecha = DateTime::createFromFormat('d/m/Y', $fechaFinVenta);
+        if ($fecha && $this->fechaIniVenta && $fecha >= $this->fechaIniVenta) {
+            $this->fechaFinVenta = $fecha;
+            return true;
+        }
         return false;
     }
 
@@ -150,8 +154,6 @@ abstract class MuebleBase
         }
         return false;
     }
-
-    // funciones 
 
     public function getMaterialDescripcion(): string
     {
@@ -176,18 +178,33 @@ abstract class MuebleBase
         if ($modo === 1) {
             $metodo = 'get' . ucfirst($propiedad);
             if (method_exists($this, $metodo)) {
-                $res = $this->$metodo();
-                return true;
+                try {
+                    $res = $this->$metodo();
+                    return true;
+                } catch (Error $e) {
+                    $res = null;
+                    return false;
+                }
             }
         } elseif ($modo === 2) {
             if (property_exists($this, $propiedad)) {
-                $res = $this->$propiedad;
-                return true;
+                try {
+                    $res = $this->$propiedad;
+                    return true;
+                } catch (Error $e) {
+                    $res = null;
+                    return false;
+                }
             } else {
                 $metodo = 'get' . ucfirst($propiedad);
                 if (method_exists($this, $metodo)) {
-                    $res = $this->$metodo();
-                    return true;
+                    try {
+                        $res = $this->$metodo();
+                        return true;
+                    } catch (Error $e) {
+                        $res = null;
+                        return false;
+                    }
                 }
             }
         }
@@ -195,38 +212,43 @@ abstract class MuebleBase
         return false;
     }
 
-    public function anadir(...$args): void{
+    public function anadir(...$args): void
+    {
         $total = count($args);
-        if ($total < 2 ) return;
+        if ($total < 2) return;
 
-        //comprobamos si es impar , si es asi tenemos que ignorar el último
-        if($total % 2 != 0){
+        if ($total % 2 != 0) {
             array_pop($args);
         }
 
-        for($i = 0; $i < count($args); $i += 2){
+        for ($i = 0; $i < count($args); $i += 2) {
             $clave = $args[$i];
             $valor = $args[$i + 1];
             $this->carecteristicas->set($clave, $valor);
         }
     }
 
-    public function exportarCaracteristicas(): string{
-        $reult = "";
-        foreach($this->carecteristicas as $clave => $valor){
-            $result .= "$clave:$valor";
+    public function exportarCaracteristicas(): string
+    {
+        $result = "";
+        foreach ($this->carecteristicas as $clave => $valor) {
+            $result .= "$clave:$valor ";
         }
-        return $result;
+        return trim($result);
     }
 
-
-    // __toString
     public function __toString(): string
     {
-    $base = "MUEBLE de clase " . get_class($this) .
-        " con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()->format('Y')}, vendido desde {$this->getFechaIniVenta()->format('d/m/Y')} hasta {$this->getFechaFinVenta()->format('d/m/Y')}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
+        $base = "MUEBLE de clase " . get_class($this) .
+            " con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()->format('Y')}";
 
-    $caracs = $this->exportarCaracteristicas();
-    return $base . "\nCaracterísticas:\n" . $caracs;
+        if ($this->fechaIniVenta && $this->fechaFinVenta) {
+            $base .= ", vendido desde {$this->fechaIniVenta->format('d/m/Y')} hasta {$this->fechaFinVenta->format('d/m/Y')}";
+        }
+
+        $base .= ", precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
+
+        $caracs = $this->exportarCaracteristicas();
+        return $base . "\nCaracterísticas:\n" . $caracs;
     }
 }

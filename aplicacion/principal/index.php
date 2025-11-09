@@ -3,6 +3,7 @@ require_once '../clases/curso2025/MuebleBase.php';
 require_once '../clases/curso2025/MuebleReciclado.php';
 require_once '../clases/curso2025/MuebleTradicional.php';
 require_once '../clases/curso2025/Caracteristicas.php';
+require_once '../clases/curso2025/muebles.php';
 
 echo "<pre>";
 
@@ -21,7 +22,7 @@ try {
     );
 
     $reciclado->anadir("color", "verde", "plegable", true);
-    $reciclado->anadir("ningunamas", true);
+    //$reciclado->anadir("ningunamas", true);
     // Esto lanzará excepción
     try {
         $reciclado->anadir("nuevoExtra", "valor");
@@ -74,3 +75,9 @@ try {
 echo "\n\nTotal de muebles creados: " . MuebleBase::getMueblesCreados();
 
 echo "</pre>";
+
+//Mostramos todos los muebles creados en el array definido
+
+foreach ($muebles as $indice => $mueble) {
+    echo "[$indice] " . $mueble . "\n\n";
+}
