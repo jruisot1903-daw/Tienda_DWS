@@ -1,8 +1,26 @@
 <?php
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 require_once dirname(__FILE__) . "/../clases/curso2025/Muebles.php";
 require_once dirname(__FILE__) . "/../clases/curso2025/MuebleBase.php";
 
-$id = $_GET['idMueble'] ?? null;
+// Dibuja la plantilla de la vista 
+inicioCabecera("2DAW Tienda");
+cabecera();
+finCabecera();
+
+inicioCuerpo("Tienda");
+cuerpo(); // llamo a la vista
+finCuerpo();
+
+// **********************************************************
+// Vista
+function cabecera() {}
+
+// Vista
+function cuerpo()
+{
+    global $muebles;
+    $id = $_GET['idMueble'] ?? null;
 
 if (!is_numeric($id) || !isset($muebles[$id])) {
     echo "<p>Mueble no válido.</p>";
@@ -82,4 +100,7 @@ $material = $materiales[$materialId] ?? '';
     </label><br><br>
     <button type="submit">Guardar cambios</button>
 </form>
-<a href="/aplicacion/principal/index.php">Volver</a>
+
+<?php
+}
+
