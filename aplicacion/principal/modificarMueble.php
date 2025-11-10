@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nuevo->setPrecio($precio);
         $nuevo->setMaterialPrincipal($materialId);
 
-        echo "<h2>Mueble modificado (no persistente)</h2>";
+        echo "<h2>Mueble modificado</h2>";
         echo "<pre>" . htmlspecialchars((string)$nuevo) . "</pre>";
         echo '<a href="index.php">Volver</a>';
         exit;
@@ -87,14 +87,14 @@ $material = $materiales[$materialId] ?? '';
 
 <h2>Modificar mueble #<?= $id ?> (<?= get_class($mueble) ?>)</h2>
 <form method="post">
-    <label>Nombre: <input type="text" name="nombre" value="<?= htmlspecialchars($nombre) ?>"></label><br>
-    <label>Fabricante: <input type="text" name="fabricante" value="<?= htmlspecialchars($fabricante) ?>"></label><br>
-    <label>País: <input type="text" name="pais" value="<?= htmlspecialchars($pais) ?>"></label><br>
-    <label>Precio: <input type="number" name="precio" value="<?= htmlspecialchars($precio) ?>"></label><br>
+    <label>Nombre: <input type="text" name="nombre" value="<?= htmlspecialchars((string)$nombre) ?>"></label><br>
+    <label>Fabricante: <input type="text" name="fabricante" value="<?= htmlspecialchars((string)$fabricante) ?>"></label><br>
+    <label>País: <input type="text" name="pais" value="<?= htmlspecialchars((string)$pais) ?>"></label><br>
+    <label>Precio: <input type="number" name="precio" value="<?= htmlspecialchars((string)$precio) ?>"></label><br>
     <label>Material:
         <select name="material">
             <?php foreach ($materiales as $id => $nombreMat): ?>
-                <option value="<?= $nombreMat ?>" <?= $material === $nombreMat ? 'selected' : '' ?>><?= $nombreMat ?></option>
+                <option value="<?= htmlspecialchars((string)$nombreMat) ?>" <?= (string)$material === $nombreMat ? 'selected' : '' ?>><?= htmlspecialchars($nombreMat) ?></option>
             <?php endforeach; ?>
         </select>
     </label><br><br>

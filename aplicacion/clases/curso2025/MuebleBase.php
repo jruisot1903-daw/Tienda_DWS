@@ -74,7 +74,7 @@ abstract class MuebleBase
     public function getFabricante() { return $this->fabricante; }
     public function setFabricante($fabricante)
     {
-        if (strpos($fabricante, 'FMu:') !== 0) {
+        if (mb_strpos($fabricante, 'FMu:') !== 0) {
             $fabricante = 'FMu:' . $fabricante;
         }
         if (validaCadena($fabricante, 30, "FMu:")) {
@@ -169,7 +169,7 @@ abstract class MuebleBase
         ];
     }
 
-    public function damePropiedad(string $propiedad, int $modo, &$res): bool
+    public function damePropiedad(string $propiedad, int $modo, mixed &$res): bool
     {
         if (!in_array($propiedad, $this->dameListaPropiedades())) {
             return false;
@@ -251,4 +251,5 @@ abstract class MuebleBase
         $caracs = $this->exportarCaracteristicas();
         return $base . "\nCaracterísticas:\n" . $caracs;
     }
+
 }
